@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Numeric input</title>
+	<meta charset="UTF-8">
+	<title>Custom number input control</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<script type="text/javascript" src="../dojo/dojo/dojo.js"
+		data-dojo-config="parseOnLoad: false, async: true, packages: [{name: 'droopy', location: '../../input/droopy'}]">
+	</script>
+<script type="text/javascript">
+require(['dojo/parser', 'dojo/dom', 'droopy/input/ValueInput', 'droopy/input/TimeInput', 'dojo/domReady!'
+], function(parser, dom, ValueInput, TimeInput){
+	parser.parse();
+	dom.byId('version').textContent = dojo.version;
+});
+</script>
 </head>
 <body>
-
+	<h2>Test page for the inputs</h2>
+	<div><span id="valueInput" data-dojo-type="droopy/input/ValueInput" data-dojo-props=""></span></div>
+	<div><span id="timeInput" data-dojo-type="droopy/input/TimeInput" data-dojo-props=""></span></div>
+	<div id="version"></div>
 </body>
 </html>
