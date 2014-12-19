@@ -12,14 +12,28 @@
 	require(['dojo/parser', 'dojo/dom', 'droopy/input/ValueInput', 'droopy/input/TimeInput', 'dojo/domReady!'
 	], function(parser, dom, ValueInput, TimeInput){
 		parser.parse();
-		dom.byId('version').textContent = dojo.version;
+		var value = dom.byId('valueInput');
+		var time = dom.byId('timeInput');
+		//var dValue = new ValueInput(dom.byId('dynamicValue'), {});
+		//var dTime = new TimeInput(dom.byId('dynamicTime'), {});
 	});
 	</script>
 </head>
 <body>
-	<h2>Test page for the inputs</h2>
-	<div><span id="valueInput" data-dojo-type="droopy/input/ValueInput" data-dojo-props=""></span></div>
-	<div><span id="timeInput" data-dojo-type="droopy/input/TimeInput" data-dojo-props=""></span></div>
-	<div id="version"></div>
+	<div class="page">
+		<h2>Test page for the inputs</h2>
+		<div class="par">
+			<span id="valueInput" data-dojo-type="droopy/input/ValueInput" data-dojo-props=""></span>
+		</div>
+		<div class="par">
+			<span id="timeInput" data-dojo-type="droopy/input/TimeInput" data-dojo-props=""></span>
+		</div>
+		<div class="par">
+			<div id="dynamicValue"></div>
+		</div>
+		<div class="par">
+			<div id="dynamicTime"></div>
+		</div>
+	</div>
 </body>
 </html>

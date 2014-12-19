@@ -1,9 +1,20 @@
 .droopy-input {
 	display: inline-block;
+	border: 1px solid gray;
+}
+
+.droopy-input.droopyFocus {
+	outline: 1px solid blue;
 }
 
 .droopy-input > input {
+	border: none;
+	text-align: right;
+	padding: 0 2px;
+}
 
+.droopy-input > input:focus {
+	outline: none;
 }
 
 .droopy-input > span {

@@ -14,6 +14,7 @@ return declare([_WidgetBase], {
 	// internal properties
 	_inputFields: null,
 	_sepFields: null,
+	focusedField: 0,
 
 	constructor: function()
 	{
@@ -21,11 +22,19 @@ return declare([_WidgetBase], {
 		this.separators = [' ', '.'];
 	},
 
+// ********************* Construction *********************************************************
 	buildRendering: function()
 	{
 		this.inherited(arguments);
 		domClass.add(this.domNode, 'droopy-input');
+		if (!this.domNode.getAttribute('tabindex'))
+		{
+			this.domNode.setAttribute('tabindex', '0');
+		}
 		var self = this;
+		this.own(on(this.domNode, 'focus', function(e){
+			self._inputFields[self.focusedField].focus();
+		}));
 		this._inputFields = [];
 		for (var i = 0; i < this.inputs.length; i++)
 		{
@@ -35,23 +44,13 @@ return declare([_WidgetBase], {
 			inp.setAttribute('maxlength', valSize);
 			inp.setAttribute('data-idx', i);
 			inp.setAttribute('pattern', '[0-9]');
+			inp.setAttribute('tabindex', '-1');
 			domClass.add(inp, 'droopy' + valSize + 'char');
 			this._inputFields.push(inp);
 			this.domNode.appendChild(inp);
-			this.own(on(inp, 'keydown', function(e){
-				var idx = this.getAttribute('data-idx');
-				if (e.keyCode == keys.LEFT_ARROW)
-				{
-					debugger;
-
-				}
-				else if (e.keyCode == keys.RIGHT_ARROW)
-				{
-					debugger;
-
-				}
-			}));
+			this.own(on(inp, 'keydown', keydoown));
 		}
+		this.focusedField = this._inputFields.length - 1;
 		this._sepFields = [];
 		for (i = 0; i < this.separators.length; i++)
 		{
@@ -60,6 +59,43 @@ return declare([_WidgetBase], {
 			this._sepFields.push(sep);
 			domClass.add(sep, 'droopy' + valSize + 'char');
 			this.domNode.appendChild(sep);
+		}
+
+		function keydoown(e)
+		{
+			var idx = this.getAttribute('data-idx');
+			var val = self.inputs[idx];
+			var text = this.value;
+			if (e.keyCode == keys.LEFT_ARROW)
+			{
+			}
+			else if (e.keyCode == keys.RIGHT_ARROW)
+			{
+			}
+			else if (e.keyCode == keys.UP_ARROW)
+			{
+				var num = parseInt(text) || 0;
+				if (num == val)
+				{
+					this.value = '0'
+				}
+				else
+				{
+					this.value = (num + 1).toString();
+				}
+			}
+			else if (e.keyCode == keys.DOWN_ARROW)
+			{
+				num = parseInt(text) || 0;
+				if (num == 0)
+				{
+					this.value = val.toString();
+				}
+				else
+				{
+					this.value = (num - 1).toString();
+				}
+			}
 		}
 	}
 });
