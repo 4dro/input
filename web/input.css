@@ -10,7 +10,7 @@
 .droopy-input > input {
 	border: none;
 	text-align: right;
-	padding: 0 2px;
+	padding: 0 1px;
 }
 
 .droopy-input > input:focus {
@@ -22,26 +22,26 @@
 }
 
 .droopy1char {
-	width: 1ex;
+	width: 0.6em;
 }
 
 .droopy2char {
-	width: 2ex;
+	width: 1.2em;
 }
 
 .droopy3char {
-	width: 3ex;
+	width: 1.8em;
 }
 
 .droopy4char {
-	width: 4ex;
+	width: 2.4em;
 }
 
 .droopy5char {
-	width: 5ex;
+	width: 3.0em;
 }
 
 .droopy6char {
-	width: 6ex;
+	width: 3.6em;
 }
 

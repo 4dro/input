@@ -25,6 +25,10 @@ return declare([_WidgetBase], {
 // ********************* Construction *********************************************************
 	buildRendering: function()
 	{
+		if (this.separators.length != this.inputs.length - 1)
+		{
+			throw new Error('Input initialization error: wrong parameters.');
+		}
 		this.inherited(arguments);
 		domClass.add(this.domNode, 'droopy-input');
 		if (!this.domNode.getAttribute('tabindex'))
@@ -36,6 +40,7 @@ return declare([_WidgetBase], {
 			self._inputFields[self.focusedField].focus();
 		}));
 		this._inputFields = [];
+		this._sepFields = [];
 		for (var i = 0; i < this.inputs.length; i++)
 		{
 			var inp = document.createElement('input');
@@ -55,22 +60,23 @@ return declare([_WidgetBase], {
 					// TODO: check selection then delete
 					e.preventDefault();
 				}
+				var idx = parseInt(this.getAttribute('data-idx'));
+				self._updateLowers(idx);
 			}));
+			if (this.separators.length > i)
+			{
+				var sep = document.createElement('span');
+				valSize = this.separators[i].length;
+				sep.textContent = this.separators[i];
+				this._sepFields.push(sep);
+				domClass.add(sep, 'droopy' + valSize + 'char');
+				this.domNode.appendChild(sep);
+			}
 		}
 		this.focusedField = this._inputFields.length - 1;
-		this._sepFields = [];
-		for (i = 0; i < this.separators.length; i++)
-		{
-			var sep = document.createElement('span');
-			valSize = this.separators[i].length;
-			this._sepFields.push(sep);
-			domClass.add(sep, 'droopy' + valSize + 'char');
-			this.domNode.appendChild(sep);
-		}
 
 		function keydoown(e)
 		{
-
 			var idx = parseInt(this.getAttribute('data-idx'));
 			var val = self.inputs[idx];
 			var text = this.value;
@@ -86,8 +92,8 @@ return declare([_WidgetBase], {
 			}
 			else if (e.keyCode == keys.RIGHT_ARROW)
 			{
-				if (this.selectionStart == val.toString().length ||
-					this.selectionEnd == val.toString().length)
+				if (this.selectionStart == text.toString().length ||
+					this.selectionEnd == text.toString().length)
 				{
 					if (idx < self._inputFields.length - 1)
 					{
@@ -100,26 +106,64 @@ return declare([_WidgetBase], {
 				var num = parseInt(text) || 0;
 				if (num == val)
 				{
-					this.value = '0'
+					self._updateValue(idx, '0');
 				}
 				else
 				{
-					this.value = (num + 1).toString();
+					self._updateValue(idx, (num + 1).toString());
 				}
+				this.selectionStart = 0;
+				this.selectionEnd = this.value.length;
+				e.preventDefault();
 			}
 			else if (e.keyCode == keys.DOWN_ARROW)
 			{
 				num = parseInt(text) || 0;
 				if (num == 0)
 				{
-					this.value = val.toString();
+					self._updateValue(idx, val.toString());
 				}
 				else
 				{
-					this.value = (num - 1).toString();
+					self._updateValue(idx, (num - 1).toString());
 				}
+				this.selectionStart = 0;
+				this.selectionEnd = this.value.length;
+				e.preventDefault();
 			}
+		}
+	},
 
+	_updateValue: function(idx, val, force)
+	{
+		val = val.toString();
+		if (this._hasElder(idx) | force)
+		{
+			var max = this.inputs[idx].toString().length;
+			val = '000000000000000000000000000000000000000000000'.substr(0, max - val.length) + val;
+		}
+
+		this._inputFields[idx].value = val;
+	},
+
+	_hasElder: function(idx)
+	{
+		if (idx == 0)
+		{
+			return false;
+		}
+		return this._inputFields[idx - 1].value != '';
+	},
+
+	// Set numbers on the fields that are lower the the editing one
+	_updateLowers: function(idx)
+	{
+		if (idx < this._inputFields.length - 2)
+		{
+			for (var i = idx + 1; i < this._inputFields.length; i++)
+			{
+				this._updateValue(i, this._inputFields[i].value, true);
+			}
 		}
 	},
 
