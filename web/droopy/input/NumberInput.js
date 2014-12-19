@@ -53,7 +53,12 @@ return declare([_WidgetBase], {
 			domClass.add(inp, 'droopy' + valSize + 'char');
 			this._inputFields.push(inp);
 			this.domNode.appendChild(inp);
-			this.own(on(inp, 'keydown', keydoown));
+			this.own(on(inp, 'focus', function(e){
+				self.focusedField = parseInt(this.getAttribute('data-idx'));
+				this.selectionStart = 0;
+				this.selectionEnd = this.value.length;
+			}));
+			this.own(on(inp, 'keydown', keydown));
 			this.own(on(inp, 'keypress', function(e){
 				if (e.charCode < 0x30 || e.charCode > 0x39)
 				{
@@ -75,7 +80,7 @@ return declare([_WidgetBase], {
 		}
 		this.focusedField = this._inputFields.length - 1;
 
-		function keydoown(e)
+		function keydown(e)
 		{
 			var idx = parseInt(this.getAttribute('data-idx'));
 			var val = self.inputs[idx];
@@ -87,6 +92,7 @@ return declare([_WidgetBase], {
 					if (idx > 0)
 					{
 						self._inputFields[idx - 1].focus();
+						e.preventDefault();
 					}
 				}
 			}
@@ -98,6 +104,7 @@ return declare([_WidgetBase], {
 					if (idx < self._inputFields.length - 1)
 					{
 						self._inputFields[idx + 1].focus();
+						e.preventDefault();
 					}
 				}
 			}
