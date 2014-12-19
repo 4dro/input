@@ -64,6 +64,7 @@ return declare([_WidgetBase], {
 				{
 					// TODO: check selection then delete
 					e.preventDefault();
+					return;
 				}
 				var idx = parseInt(this.getAttribute('data-idx'));
 				self._updateLowers(idx);
@@ -91,6 +92,7 @@ return declare([_WidgetBase], {
 				{
 					if (idx > 0)
 					{
+						self._updateValue(idx, text);
 						self._inputFields[idx - 1].focus();
 						e.preventDefault();
 					}
@@ -103,6 +105,7 @@ return declare([_WidgetBase], {
 				{
 					if (idx < self._inputFields.length - 1)
 					{
+						self._updateValue(idx, text);
 						self._inputFields[idx + 1].focus();
 						e.preventDefault();
 					}
@@ -113,11 +116,11 @@ return declare([_WidgetBase], {
 				var num = parseInt(text) || 0;
 				if (num == val)
 				{
-					self._updateValue(idx, '0');
+					self._updateValue(idx, 0);
 				}
 				else
 				{
-					self._updateValue(idx, (num + 1).toString());
+					self._updateValue(idx, num + 1);
 				}
 				this.selectionStart = 0;
 				this.selectionEnd = this.value.length;
@@ -128,11 +131,11 @@ return declare([_WidgetBase], {
 				num = parseInt(text) || 0;
 				if (num == 0)
 				{
-					self._updateValue(idx, val.toString());
+					self._updateValue(idx, val);
 				}
 				else
 				{
-					self._updateValue(idx, (num - 1).toString());
+					self._updateValue(idx, num - 1);
 				}
 				this.selectionStart = 0;
 				this.selectionEnd = this.value.length;
@@ -144,12 +147,12 @@ return declare([_WidgetBase], {
 	_updateValue: function(idx, val, force)
 	{
 		val = val.toString();
-		if (this._hasElder(idx) | force)
+		if (this._hasElder(idx) || force)
 		{
 			var max = this.inputs[idx].toString().length;
 			val = '000000000000000000000000000000000000000000000'.substr(0, max - val.length) + val;
 		}
-
+		this._updateLowers(idx);
 		this._inputFields[idx].value = val;
 	},
 
@@ -165,7 +168,7 @@ return declare([_WidgetBase], {
 	// Set numbers on the fields that are lower the the editing one
 	_updateLowers: function(idx)
 	{
-		if (idx < this._inputFields.length - 2)
+		if (idx < this._inputFields.length - 1)
 		{
 			for (var i = idx + 1; i < this._inputFields.length; i++)
 			{

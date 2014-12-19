@@ -1,6 +1,9 @@
 .droopy-input {
 	display: inline-block;
 	border: 1px solid gray;
+	border-radius: 3px;
+	background-color: #f4f7fa;
+	padding: 0 2px;
 }
 
 .droopy-input.droopyFocus {
@@ -11,6 +14,8 @@
 	border: none;
 	text-align: right;
 	padding: 0 1px;
+	border-radius: 2px;
+	background-color: inherit;
 }
 
 .droopy-input > input:focus {
@@ -18,7 +23,7 @@
 }
 
 .droopy-input > span {
-
+	color: gray;
 }
 
 .droopy1char {
