@@ -25,26 +25,40 @@ return declare([_WidgetBase], {
 	{
 		this.inherited(arguments);
 		domClass.add(this.domNode, 'droopy-input');
+		var self = this;
 		this._inputFields = [];
 		for (var i = 0; i < this.inputs.length; i++)
 		{
 			var inp = document.createElement('input');
-			var val = this.inputs[i];
+			var valSize = this.inputs[i].toString().length;
 			inp.setAttribute('type', 'text');
-			inp.setAttribute('maxlength', val.toString().length);
+			inp.setAttribute('maxlength', valSize);
 			inp.setAttribute('data-idx', i);
-
+			inp.setAttribute('pattern', '[0-9]');
+			domClass.add(inp, 'droopy' + valSize + 'char');
 			this._inputFields.push(inp);
 			this.domNode.appendChild(inp);
-			this.own(on(inp, 'keypress', function(e){
+			this.own(on(inp, 'keydown', function(e){
+				var idx = this.getAttribute('data-idx');
+				if (e.keyCode == keys.LEFT_ARROW)
+				{
+					debugger;
 
+				}
+				else if (e.keyCode == keys.RIGHT_ARROW)
+				{
+					debugger;
+
+				}
 			}));
 		}
 		this._sepFields = [];
 		for (i = 0; i < this.separators.length; i++)
 		{
 			var sep = document.createElement('span');
+			valSize = this.separators[i].length;
 			this._sepFields.push(sep);
+			domClass.add(sep, 'droopy' + valSize + 'char');
 			this.domNode.appendChild(sep);
 		}
 	}

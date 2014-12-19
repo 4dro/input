@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Custom number input control</title>
@@ -8,13 +8,13 @@
 	<script type="text/javascript" src="../dojo/dojo/dojo.js"
 		data-dojo-config="parseOnLoad: false, async: true, packages: [{name: 'droopy', location: '../../input/droopy'}]">
 	</script>
-<script type="text/javascript">
-require(['dojo/parser', 'dojo/dom', 'droopy/input/ValueInput', 'droopy/input/TimeInput', 'dojo/domReady!'
-], function(parser, dom, ValueInput, TimeInput){
-	parser.parse();
-	dom.byId('version').textContent = dojo.version;
-});
-</script>
+	<script type="text/javascript">
+	require(['dojo/parser', 'dojo/dom', 'droopy/input/ValueInput', 'droopy/input/TimeInput', 'dojo/domReady!'
+	], function(parser, dom, ValueInput, TimeInput){
+		parser.parse();
+		dom.byId('version').textContent = dojo.version;
+	});
+	</script>
 </head>
 <body>
 	<h2>Test page for the inputs</h2>
