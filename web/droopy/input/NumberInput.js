@@ -49,6 +49,13 @@ return declare([_WidgetBase], {
 			this._inputFields.push(inp);
 			this.domNode.appendChild(inp);
 			this.own(on(inp, 'keydown', keydoown));
+			this.own(on(inp, 'keypress', function(e){
+				if (e.charCode < 0x30 || e.charCode > 0x39)
+				{
+					// TODO: check selection then delete
+					e.preventDefault();
+				}
+			}));
 		}
 		this.focusedField = this._inputFields.length - 1;
 		this._sepFields = [];
@@ -63,14 +70,30 @@ return declare([_WidgetBase], {
 
 		function keydoown(e)
 		{
-			var idx = this.getAttribute('data-idx');
+
+			var idx = parseInt(this.getAttribute('data-idx'));
 			var val = self.inputs[idx];
 			var text = this.value;
 			if (e.keyCode == keys.LEFT_ARROW)
 			{
+				if (this.selectionStart == 0 || this.selectionEnd == 0)
+				{
+					if (idx > 0)
+					{
+						self._inputFields[idx - 1].focus();
+					}
+				}
 			}
 			else if (e.keyCode == keys.RIGHT_ARROW)
 			{
+				if (this.selectionStart == val.toString().length ||
+					this.selectionEnd == val.toString().length)
+				{
+					if (idx < self._inputFields.length - 1)
+					{
+						self._inputFields[idx + 1].focus();
+					}
+				}
 			}
 			else if (e.keyCode == keys.UP_ARROW)
 			{
@@ -96,7 +119,13 @@ return declare([_WidgetBase], {
 					this.value = (num - 1).toString();
 				}
 			}
+
 		}
+	},
+
+	_setValueAttr: function(value)
+	{
+
 	}
 });
 });
