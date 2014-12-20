@@ -9,7 +9,7 @@ return declare([_WidgetBase], {
 	// public properties
 	inputs: null,
 	separators: null,
-	fraction: 2,
+	fractionFields: 1,
 
 	// internal properties
 	_inputFields: null,
@@ -55,8 +55,8 @@ return declare([_WidgetBase], {
 			this.domNode.appendChild(inp);
 			this.own(on(inp, 'focus', function(e){
 				self.focusedField = parseInt(this.getAttribute('data-idx'));
-				this.selectionStart = 0;
-				this.selectionEnd = this.value.length;
+				e.target.selectionStart = 0;
+				e.target.selectionEnd = this.value.length;
 			}));
 			this.own(on(inp, 'keydown', keydown));
 			this.own(on(inp, 'keypress', function(e){
@@ -79,7 +79,7 @@ return declare([_WidgetBase], {
 				this.domNode.appendChild(sep);
 			}
 		}
-		this.focusedField = this._inputFields.length - 1;
+		this.focusedField = this._inputFields.length - 1 - this.fractionFields;
 
 		function keydown(e)
 		{
@@ -144,6 +144,19 @@ return declare([_WidgetBase], {
 		}
 	},
 
+// ********************* Exported functions ******************************************************
+	getValue: function()
+	{
+		var ret = [];
+		for (var i = this._inputFields.length - 1; i >= 0 ; i--)
+		{
+			var val = this._inputFields[i].value;
+			ret.push(val);
+		}
+		return ret;
+	},
+
+// ******************** Helper functions ***********************************************************
 	_updateValue: function(idx, val, force)
 	{
 		val = val.toString();
@@ -152,7 +165,10 @@ return declare([_WidgetBase], {
 			var max = this.inputs[idx].toString().length;
 			val = '000000000000000000000000000000000000000000000'.substr(0, max - val.length) + val;
 		}
-		this._updateLowers(idx);
+		if (val.length)
+		{
+			this._updateLowers(idx);
+		}
 		this._inputFields[idx].value = val;
 	},
 

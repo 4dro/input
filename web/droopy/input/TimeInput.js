@@ -7,7 +7,7 @@ return declare([NumberInput], {
     useHours: true,
     useMinutes: true,
     useSeconds: true,
-
+    fractionFields: 0,
 
     constructor: function()
     {
