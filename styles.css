@@ -22,3 +22,8 @@ html, body {
 .result {
 	background-color: #b8f5bc;
 }
+
+h2 {
+	margin: 0;
+	padding: 10px 0;
+}

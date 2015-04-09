@@ -1,52 +1,48 @@
-.droopy-input {
+.droInput {
 	display: inline-block;
-	border: 1px solid gray;
-	border-radius: 3px;
+	border: 1px solid #AAA;
 	background-color: #f4f7fa;
-	padding: 0 2px;
+	padding: 0 6px;
 }
-
-.droopy-input.droopyFocus {
-	outline: 1px solid blue;
+.droInput.droDisabled {
+	border: 1px solid #CCC;
+	background-color: #F3F3F3;
 }
-
-.droopy-input > input {
+.droInput.droFocus {
+	outline: 1px solid #4D90FE;
+}
+.droInput.droDisabled {
+	background-color: gray;
+	color: #BBB;
+}
+.droInput > input {
 	border: none;
 	text-align: right;
-	padding: 0 1px;
-	border-radius: 2px;
+	padding: 4px 1px 4px 1px;
 	background-color: inherit;
+	font: inherit;
 }
-
-.droopy-input > input:focus {
+.droInput > input:focus {
 	outline: none;
 }
-
-.droopy-input > span {
+.droInput > span {
 	color: gray;
 }
-
-.droopy1char {
+.dro1char {
 	width: 0.6em;
 }
-
-.droopy2char {
+.dro2char {
 	width: 1.2em;
 }
-
-.droopy3char {
+.dro3char {
 	width: 1.8em;
 }
-
-.droopy4char {
+.dro4char {
 	width: 2.4em;
 }
-
-.droopy5char {
+.dro5char {
 	width: 3.0em;
 }
-
-.droopy6char {
+.dro6char {
 	width: 3.6em;
 }
-

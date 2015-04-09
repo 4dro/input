@@ -9,7 +9,8 @@
 		data-dojo-config="parseOnLoad: false, async: true, packages: [{name: 'droopy', location: '../../input/droopy'}]">
 	</script>
 	<script type="text/javascript">
-	require(['dojo/parser', 'dojo/dom', 'droopy/input/ValueInput', 'droopy/input/TimeInput', 'dojo/on', 'dijit/registry', 'dojo/domReady!'
+	require(['dojo/parser', 'dojo/dom', 'droopy/input/ValueInput', 'droopy/input/TimeInput', 'dojo/on', 'dijit/registry',
+		'droopy/input/DateTimeInput', 'dojo/domReady!'
 	], function(parser, dom, ValueInput, TimeInput, on, registry){
 		parser.parse();
 		var value = registry.getEnclosingWidget(dom.byId('valueInput'));
@@ -20,8 +21,8 @@
 		on(dom.byId('getButton2'), 'click', function(){
 			dom.byId('result2').textContent = time.getValue();
 		});
-		//var dValue = new ValueInput(dom.byId('dynamicValue'), {});
-		//var dTime = new TimeInput(dom.byId('dynamicTime'), {});
+		//var dValue = new ValueInput({}, dom.byId('dynamicValue'), {});
+		//var dTime = new TimeInput({}, dom.byId('dynamicTime'), {});
 	});
 	</script>
 </head>
@@ -36,7 +37,7 @@
 		</div>
 		<div class="par">
 			<div class="lbl">Time input</div>
-			<span id="timeInput" data-dojo-type="droopy/input/TimeInput" data-dojo-props=""></span>
+			<input id="timeInput" data-dojo-type="droopy/input/TimeInput" disabled data-dojo-props="">
 			<button id="getButton2">Get value</button>
 			<span id="result2" class="result"></span>
 		</div>
@@ -45,6 +46,9 @@
 		</div>
 		<div class="par">
 			<div id="dynamicTime"></div>
+		</div>
+		<div class="par">
+			<div id="dateTime" data-dojo-type="droopy/input/DateTimeInput"></div>
 		</div>
 	</div>
 </body>

@@ -3,6 +3,6 @@ define([
 	'./NumberInput'
 ], function(declare, NumberInput){
 return declare([NumberInput], {
-	
+
 });
 });
